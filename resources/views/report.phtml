@@ -6,7 +6,7 @@ use Fisharebest\Webtrees\I18N;
 ?>
 <div class="container-fluid">
     <h1><?= e($title) ?></h1>
-    <p><?= e(I18N::translate('Family tree:')) ?> <strong><?= e($tree->title()) ?></strong></p>
+    <p><?= e(I18N::translate('Family tree')) ?>: <strong><?= e($tree->title()) ?></strong></p>
     <p>
         <?= e(I18N::translate('%s identifiers found: %s EXID and %s _EXID.', (string) $report['total'], (string) $report['exid'], (string) $report['legacy'])) ?><br>
         <?= e(I18N::translate('Records scanned: %s.', (string) $report['records'])) ?>
