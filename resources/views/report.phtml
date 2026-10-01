@@ -1,0 +1,61 @@
+<?php
+
+use Fisharebest\Webtrees\I18N;
+
+/** @var array{total:int,exid:int,legacy:int,records:int,groups:list<array{uri:string,count:int,contexts:array<string,int>,registered:?bool,label:?string}>,catalog_available:bool} $report */
+?>
+<div class="container-fluid">
+    <h1><?= e($title) ?></h1>
+    <p><?= e(I18N::translate('Family tree:')) ?> <strong><?= e($tree->title()) ?></strong></p>
+    <p>
+        <?= e(I18N::translate('%s identifiers found: %s EXID and %s _EXID.', (string) $report['total'], (string) $report['exid'], (string) $report['legacy'])) ?><br>
+        <?= e(I18N::translate('Records scanned: %s.', (string) $report['records'])) ?>
+    </p>
+
+    <?php if (!$report['catalog_available']): ?>
+        <div class="alert alert-info">
+            <?= e(I18N::translate('The hh_exid catalogue is not available. TYPE registration status cannot be verified.')) ?>
+        </div>
+    <?php endif ?>
+
+    <?php if ($report['groups'] === []): ?>
+        <p class="alert alert-info"><?= e(I18N::translate('No EXID or _EXID values were found.')) ?></p>
+    <?php else: ?>
+        <table class="table table-bordered table-sm">
+            <thead>
+            <tr>
+                <th><?= e(I18N::translate('TYPE URI')) ?></th>
+                <th><?= e(I18N::translate('Label')) ?></th>
+                <th><?= e(I18N::translate('Count')) ?></th>
+                <th><?= e(I18N::translate('Contexts')) ?></th>
+                <th><?= e(I18N::translate('Registry')) ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($report['groups'] as $group): ?>
+                <tr>
+                    <td>
+                        <?php if (str_starts_with($group['uri'], 'http')): ?>
+                            <a href="<?= e($group['uri']) ?>" rel="nofollow noopener" target="_blank"><?= e($group['uri']) ?></a>
+                        <?php else: ?>
+                            <?= e($group['uri']) ?>
+                        <?php endif ?>
+                    </td>
+                    <td><?= e($group['label'] ?? '') ?></td>
+                    <td><?= e((string) $group['count']) ?></td>
+                    <td><?= e(implode(', ', array_map(static fn (string $type, int $count): string => $type . ': ' . $count, array_keys($group['contexts']), array_values($group['contexts']))) ) ?></td>
+                    <td>
+                        <?php if ($group['registered'] === true): ?>
+                            <?= e(I18N::translate('registered')) ?>
+                        <?php elseif ($group['registered'] === false): ?>
+                            <?= e(I18N::translate('not registered')) ?>
+                        <?php else: ?>
+                            <?= e(I18N::translate('unknown')) ?>
+                        <?php endif ?>
+                    </td>
+                </tr>
+            <?php endforeach ?>
+            </tbody>
+        </table>
+    <?php endif ?>
+</div>

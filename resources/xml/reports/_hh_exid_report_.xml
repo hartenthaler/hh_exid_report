@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Report>
+    <Title><var var="I18N::translate('EXID usage report')" /></Title>
+    <Description><var var="I18N::translate('A read-only report of EXID and _EXID values used in a family tree.')" /></Description>
+</Report>

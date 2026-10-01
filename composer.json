@@ -1,0 +1,23 @@
+{
+  "name": "hartenthaler/hh-exid-report",
+  "description": "Read-only report of EXID and _EXID usage in webtrees family trees",
+  "type": "webtrees-module",
+  "license": "GPL-3.0-or-later",
+  "require": {
+    "webtrees/module-installer": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Hartenthaler\\Webtrees\\Module\\ExidReportModule\\": "src/"
+    }
+  },
+  "extra": {
+    "webtrees-custom-module": {
+      "title": "EXID usage report",
+      "description": "Read-only report of EXID and _EXID usage in webtrees family trees.",
+      "github-repo": "https://github.com/hartenthaler/hh_exid_report",
+      "tag-prefix": "v",
+      "category": "reports"
+    }
+  }
+}
