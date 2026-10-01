@@ -72,6 +72,52 @@ final class ExidReportModule extends AbstractModule implements ModuleCustomInter
         return 'https://github.com/hartenthaler/hh_exid_report/issues';
     }
 
+    /**
+     * Load module translations on webtrees 2.2 and 2.3.
+     *
+     * webtrees 2.3 provides Fisharebest\\Webtrees\\I18N\\Translation,
+     * while 2.2 used Fisharebest\\Localization\\Translation.
+     *
+     * @return array<string,string>
+     */
+    public function customTranslations(string $language): array
+    {
+        $file = $this->resourcesFolder() . 'lang/' . $language . '.po';
+        $moFile = $this->resourcesFolder() . 'lang/' . $language . '.mo';
+        $translationClass = 'Fisharebest\\Webtrees\\I18N\\Translation';
+
+        if (class_exists($translationClass)) {
+            $filename = is_file($file) ? $file : (is_file($moFile) ? $moFile : null);
+
+            if ($filename !== null) {
+                $stream = fopen($filename, 'rb');
+
+                if ($stream !== false) {
+                    $translation = str_ends_with($filename, '.po')
+                        ? $translationClass::fromPoStream($stream)
+                        : $translationClass::fromMoStream($stream);
+                    fclose($stream);
+
+                    return $translation->toArray();
+                }
+            }
+        }
+
+        $legacyTranslationClass = 'Fisharebest\\Localization\\Translation';
+
+        if (class_exists($legacyTranslationClass)) {
+            if (is_file($file)) {
+                return (new $legacyTranslationClass($file))->asArray();
+            }
+
+            if (is_file($moFile)) {
+                return (new $legacyTranslationClass($moFile))->asArray();
+            }
+        }
+
+        return [];
+    }
+
     public function getMenu(Tree $tree): Menu|null
     {
         return new Menu(
