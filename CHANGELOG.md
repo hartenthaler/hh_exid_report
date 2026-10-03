@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Removed the duplicate main-menu entry; the report is available through the
+  standard webtrees Reports menu only.
+
 ## 2.2.6.0
 
 - Added the first usable EXID usage report with separate `EXID`/`_EXID`
