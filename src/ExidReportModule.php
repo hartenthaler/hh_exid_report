@@ -11,8 +11,6 @@ use Fisharebest\Webtrees\Menu;
 use Fisharebest\Webtrees\Module\AbstractModule;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomTrait;
-use Fisharebest\Webtrees\Module\ModuleMenuInterface;
-use Fisharebest\Webtrees\Module\ModuleMenuTrait;
 use Fisharebest\Webtrees\Module\ModuleReportInterface;
 use Fisharebest\Webtrees\Tree;
 use Fisharebest\Webtrees\Validator;
@@ -20,10 +18,9 @@ use Fisharebest\Webtrees\View;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class ExidReportModule extends AbstractModule implements ModuleCustomInterface, ModuleMenuInterface, ModuleReportInterface
+final class ExidReportModule extends AbstractModule implements ModuleCustomInterface, ModuleReportInterface
 {
     use ModuleCustomTrait;
-    use ModuleMenuTrait;
 
     private readonly ExidReportService $reportService;
 
@@ -116,16 +113,6 @@ final class ExidReportModule extends AbstractModule implements ModuleCustomInter
         }
 
         return [];
-    }
-
-    public function getMenu(Tree $tree): Menu|null
-    {
-        return new Menu(
-            $this->title(),
-            $this->reportUrl($tree),
-            'menu-exid-report',
-            ['rel' => 'nofollow'],
-        );
     }
 
     public function getReportMenu(Individual $individual): Menu

@@ -42,8 +42,8 @@ The `webtrees/module-installer` package places the module in `modules_v4`.
 
 ## Usage
 
-Open the report from the webtrees **Reports** menu or from the module's main
-menu entry. Select a family tree and review:
+Open the report from the webtrees **Reports** menu. Select a family tree and
+review:
 
 - the total number of external identifiers;
 - the separate `EXID` and `_EXID` counts in the report header;
