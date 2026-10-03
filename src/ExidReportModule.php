@@ -15,6 +15,7 @@ use Fisharebest\Webtrees\Module\ModuleReportInterface;
 use Fisharebest\Webtrees\Tree;
 use Fisharebest\Webtrees\Validator;
 use Fisharebest\Webtrees\View;
+use Hartenthaler\Webtrees\Shared\Internationalization\TranslationLoader;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -79,40 +80,7 @@ final class ExidReportModule extends AbstractModule implements ModuleCustomInter
      */
     public function customTranslations(string $language): array
     {
-        $file = $this->resourcesFolder() . 'lang/' . $language . '.po';
-        $moFile = $this->resourcesFolder() . 'lang/' . $language . '.mo';
-        $translationClass = 'Fisharebest\\Webtrees\\I18N\\Translation';
-
-        if (class_exists($translationClass)) {
-            $filename = is_file($file) ? $file : (is_file($moFile) ? $moFile : null);
-
-            if ($filename !== null) {
-                $stream = fopen($filename, 'rb');
-
-                if ($stream !== false) {
-                    $translation = str_ends_with($filename, '.po')
-                        ? $translationClass::fromPoStream($stream)
-                        : $translationClass::fromMoStream($stream);
-                    fclose($stream);
-
-                    return $translation->toArray();
-                }
-            }
-        }
-
-        $legacyTranslationClass = 'Fisharebest\\Localization\\Translation';
-
-        if (class_exists($legacyTranslationClass)) {
-            if (is_file($file)) {
-                return (new $legacyTranslationClass($file))->asArray();
-            }
-
-            if (is_file($moFile)) {
-                return (new $legacyTranslationClass($moFile))->asArray();
-            }
-        }
-
-        return [];
+        return TranslationLoader::load($this->resourcesFolder() . 'lang/', $language);
     }
 
     public function getReportMenu(Individual $individual): Menu

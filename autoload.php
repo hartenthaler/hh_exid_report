@@ -2,6 +2,16 @@
 
 declare(strict_types=1);
 
+foreach ([
+    __DIR__ . '/vendor/autoload.php',
+    __DIR__ . '/../hh_shared/autoload.php',
+] as $sharedAutoloader) {
+    if (is_file($sharedAutoloader)) {
+        require_once $sharedAutoloader;
+        break;
+    }
+}
+
 spl_autoload_register(static function (string $class): void {
     $prefix = 'Hartenthaler\\Webtrees\\Module\\ExidReportModule\\';
 
