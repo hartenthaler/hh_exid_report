@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.2.6.1
+## Unreleased
 
 - Removed the duplicate main-menu entry; the report is available through the
   standard webtrees Reports menu only.
