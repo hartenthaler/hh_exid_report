@@ -1,12 +1,13 @@
 <?php
 
 use Fisharebest\Webtrees\I18N;
+use Hartenthaler\Webtrees\Shared\Internationalization\MoreI18N;
 
 /** @var array{total:int,exid:int,legacy:int,records:int,groups:list<array{uri:string,count:int,contexts:array<string,int>,registered:?bool,label:?string}>,catalog_available:bool} $report */
 ?>
 <div class="container-fluid">
     <h1><?= e($title) ?></h1>
-    <p><?= e(I18N::translate('Family tree')) ?>: <strong><?= e($tree->title()) ?></strong></p>
+    <p><?= e(MoreI18N::xlate('Family tree')) ?>: <strong><?= e($tree->title()) ?></strong></p>
     <p>
         <?= e(I18N::translate('%s identifiers found: %s EXID and %s _EXID.', (string) $report['total'], (string) $report['exid'], (string) $report['legacy'])) ?><br>
         <?= e(I18N::translate('Records scanned: %s.', (string) $report['records'])) ?>
@@ -25,8 +26,8 @@ use Fisharebest\Webtrees\I18N;
             <thead>
             <tr>
                 <th><?= e(I18N::translate('TYPE URI')) ?></th>
-                <th><?= e(I18N::translate('Label')) ?></th>
-                <th><?= e(I18N::translate('Count')) ?></th>
+                <th><?= e(MoreI18N::xlate('Label')) ?></th>
+                <th><?= e(MoreI18N::xlate('Count')) ?></th>
                 <th><?= e(I18N::translate('Contexts')) ?></th>
                 <th><?= e(I18N::translate('Registry')) ?></th>
             </tr>

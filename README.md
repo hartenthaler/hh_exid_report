@@ -53,6 +53,11 @@ review:
 The report is read-only. Data export and correction remain functions of the
 `hh_exid` module.
 
+The module uses the shared `hartenthaler/hh-shared` library for its
+webtrees-2.2/2.3 translation compatibility. Composer/CMM installs this
+dependency automatically. For a manual development checkout, place the
+`hh_shared` directory next to `hh_exid_report` under `modules_v4`.
+
 ## Documentation
 
 - [Report details](docs/report.md)
