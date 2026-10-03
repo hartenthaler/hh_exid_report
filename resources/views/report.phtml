@@ -22,41 +22,99 @@ use Hartenthaler\Webtrees\Shared\Internationalization\MoreI18N;
     <?php if ($report['groups'] === []): ?>
         <p class="alert alert-info"><?= e(I18N::translate('No EXID or _EXID values were found.')) ?></p>
     <?php else: ?>
-        <table class="table table-bordered table-sm">
+        <table id="hh-exid-report-table" class="table table-bordered table-sm">
             <thead>
             <tr>
-                <th><?= e(I18N::translate('TYPE URI')) ?></th>
-                <th><?= e(MoreI18N::xlate('Label')) ?></th>
-                <th><?= e(MoreI18N::xlate('Count')) ?></th>
-                <th><?= e(I18N::translate('Contexts')) ?></th>
-                <th><?= e(I18N::translate('Registry')) ?></th>
+                <th>
+                    <button class="btn btn-link p-0 text-decoration-none" type="button" data-hh-exid-report-sort="0">
+                        <?= e(MoreI18N::xlate('Label')) ?>
+                    </button>
+                </th>
+                <th>
+                    <button class="btn btn-link p-0 text-decoration-none" type="button" data-hh-exid-report-sort="1">
+                        <?= e(I18N::translate('TYPE URI')) ?>
+                    </button>
+                </th>
+                <th>
+                    <button class="btn btn-link p-0 text-decoration-none" type="button" data-hh-exid-report-sort="2">
+                        <?= e(MoreI18N::xlate('Count')) ?>
+                    </button>
+                </th>
+                <th>
+                    <button class="btn btn-link p-0 text-decoration-none" type="button" data-hh-exid-report-sort="3">
+                        <?= e(I18N::translate('Contexts')) ?>
+                    </button>
+                </th>
+                <th>
+                    <button class="btn btn-link p-0 text-decoration-none" type="button" data-hh-exid-report-sort="4">
+                        <?= e(I18N::translate('Registry')) ?>
+                    </button>
+                </th>
             </tr>
             </thead>
             <tbody>
             <?php foreach ($report['groups'] as $group): ?>
+                <?php
+                $contexts = implode(', ', array_map(static fn (string $type, int $count): string => $type . ': ' . $count, array_keys($group['contexts']), array_values($group['contexts'])));
+                $registry = match ($group['registered']) {
+                    true => I18N::translate('registered'),
+                    false => I18N::translate('not registered'),
+                    default => I18N::translate('unknown'),
+                };
+                ?>
                 <tr>
-                    <td>
+                    <td data-sort="<?= e($group['label'] ?? '') ?>">
+                        <?= e($group['label'] ?? '') ?>
+                    </td>
+                    <td data-sort="<?= e($group['uri']) ?>">
                         <?php if (str_starts_with($group['uri'], 'http')): ?>
                             <a href="<?= e($group['uri']) ?>" rel="nofollow noopener" target="_blank"><?= e($group['uri']) ?></a>
                         <?php else: ?>
                             <?= e($group['uri']) ?>
                         <?php endif ?>
                     </td>
-                    <td><?= e($group['label'] ?? '') ?></td>
-                    <td><?= e((string) $group['count']) ?></td>
-                    <td><?= e(implode(', ', array_map(static fn (string $type, int $count): string => $type . ': ' . $count, array_keys($group['contexts']), array_values($group['contexts']))) ) ?></td>
-                    <td>
-                        <?php if ($group['registered'] === true): ?>
-                            <?= e(I18N::translate('registered')) ?>
-                        <?php elseif ($group['registered'] === false): ?>
-                            <?= e(I18N::translate('not registered')) ?>
-                        <?php else: ?>
-                            <?= e(I18N::translate('unknown')) ?>
-                        <?php endif ?>
-                    </td>
+                    <td data-sort="<?= e((string) $group['count']) ?>"><?= e((string) $group['count']) ?></td>
+                    <td data-sort="<?= e($contexts) ?>"><?= e($contexts) ?></td>
+                    <td data-sort="<?= e($registry) ?>"><?= e($registry) ?></td>
                 </tr>
             <?php endforeach ?>
             </tbody>
         </table>
+        <script>
+        document.querySelectorAll('#hh-exid-report-table [data-hh-exid-report-sort]').forEach(function (button) {
+            button.addEventListener('click', function () {
+                var table = document.getElementById('hh-exid-report-table');
+                var column = parseInt(button.getAttribute('data-hh-exid-report-sort'), 10);
+                var tbody = table.querySelector('tbody');
+                var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+                var current = button.getAttribute('data-sort-direction') || 'asc';
+                var next = current === 'asc' ? 'desc' : 'asc';
+
+                rows.sort(function (left, right) {
+                    var leftValue = left.children[column].getAttribute('data-sort') || left.children[column].textContent.trim();
+                    var rightValue = right.children[column].getAttribute('data-sort') || right.children[column].textContent.trim();
+                    var leftNumber = Number(leftValue);
+                    var rightNumber = Number(rightValue);
+                    var result;
+
+                    if (!Number.isNaN(leftNumber) && !Number.isNaN(rightNumber)) {
+                        result = leftNumber - rightNumber;
+                    } else {
+                        result = leftValue.localeCompare(rightValue, undefined, {numeric: true, sensitivity: 'base'});
+                    }
+
+                    return next === 'asc' ? result : -result;
+                });
+
+                table.querySelectorAll('[data-hh-exid-report-sort]').forEach(function (otherButton) {
+                    otherButton.removeAttribute('data-sort-direction');
+                });
+                button.setAttribute('data-sort-direction', next);
+                rows.forEach(function (row) {
+                    tbody.appendChild(row);
+                });
+            });
+        });
+        </script>
     <?php endif ?>
 </div>
