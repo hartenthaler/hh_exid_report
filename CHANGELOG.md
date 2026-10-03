@@ -1,9 +1,11 @@
 # Changelog
 
-## Unreleased
+## 2.2.6.1
 
 - Removed the duplicate main-menu entry; the report is available through the
   standard webtrees Reports menu only.
+- Reordered the report columns so the catalogue label appears before the TYPE
+  URI, and made every report column sortable.
 
 ## 2.2.6.0
 
