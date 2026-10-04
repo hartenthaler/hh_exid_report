@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.2.6.2
+## Unreleased
 
 - Fixed automatic loading of the required `hh_shared` library through the
   module's Composer autoloader. The report no longer contains a duplicate
