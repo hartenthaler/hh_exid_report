@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 2.2.6.4
+
+- Expanded the README and installation documentation and added a report
+  screenshot for users.
+
 ## 2.2.6.3
 
 - Standardized release packaging: manual archives contain only runtime files;
