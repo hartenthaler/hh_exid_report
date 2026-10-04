@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 2.2.6.3
+
+- Standardized release packaging: manual archives contain only runtime files;
+  VCS metadata, temporary build directories, and Composer installation plugins
+  are excluded.
+
 ## 2.2.6.2
 
 - Fixed autoloading of shared code through the module's Composer dependency.
