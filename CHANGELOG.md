@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 2.2.6.2
+
+- Fixed autoloading of shared code through the module's Composer dependency.
 - Moved Composer/CMM and manual package preparation details from the README to
   `docs/installation.md`.
 - Removed the duplicate main-menu entry; the report is available through the
