@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Fixed automatic loading of the required `hh_shared` library through the
+  module's Composer autoloader. The report no longer contains a duplicate
+  fallback implementation.
+- Moved Composer/CMM and manual package preparation details from the README to
+  `docs/installation.md`.
 - Removed the duplicate main-menu entry; the report is available through the
   standard webtrees Reports menu only.
 - Reordered the report columns so the catalogue label appears before the TYPE
