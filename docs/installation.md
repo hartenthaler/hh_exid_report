@@ -1,10 +1,9 @@
 # Installation details
 
-## CMM or Composer installation
+## Composer installation
 
-The report depends on the shared library
-`hartenthaler/hh-shared`. CMM installs this dependency automatically. In a
-webtrees development checkout, the equivalent command is:
+The report depends on the shared library `hartenthaler/hh-shared`.
+In a webtrees development environment you can use the command:
 
 ```text
 composer require hartenthaler/hh-exid-report
@@ -14,11 +13,11 @@ Composer then installs both the report and its shared library. The report's
 `autoload.php` loads the generated Composer autoloader and the shared library
 autoloader automatically.
 
-## Building a manual package
+## Building a release package
 
-The normal webtrees administrator does not need Composer. A release archive
-should contain the Composer dependencies in its `vendor/` directory and can
-be copied directly to `modules_v4/hh_exid_report`.
+The release archive contains the runtime Composer dependencies in its
+`vendor/` directory and can be copied directly to
+`modules_v4/hh_exid_report`.
 
 When preparing a package from a source checkout, run this command in the
 module directory before copying it to the server:
@@ -27,6 +26,5 @@ module directory before copying it to the server:
 composer install --no-dev --prefer-dist
 ```
 
-Do not remove `vendor/hartenthaler/hh-shared` from the resulting package: it
-contains the shared code used by the report. The report does not contain a
-second implementation of that code.
+The resulting package includes `vendor/hartenthaler/hh-shared`, which provides
+the shared code used by the report.
